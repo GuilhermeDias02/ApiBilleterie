@@ -1,5 +1,6 @@
 package fr.efrei.billeterie.model;
 
+import fr.efrei.billeterie.constants.Role;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -23,10 +24,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany
-    @Column(nullable = true)
-    private List<Ticket> tickets;
-
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public String getUuid() {
         return uuid;
