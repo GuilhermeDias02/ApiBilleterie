@@ -2,9 +2,23 @@ package fr.efrei.billeterie.model;
 
 import fr.efrei.billeterie.constants.Role;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.aspectj.apache.bcel.classfile.annotation.SimpleElementValue;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class User {
     @Id
@@ -27,6 +41,16 @@ public class User {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public Collection<? extends GrantedAuthority> getAuthorities(){
+        Set<Role> roles = Set.of(role);
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.name()));
+        }
+        return authorities;
+    }
 
     public String getUuid() {
         return uuid;
