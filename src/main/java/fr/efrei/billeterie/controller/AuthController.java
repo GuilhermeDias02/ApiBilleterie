@@ -1,5 +1,9 @@
 package fr.efrei.billeterie.controller;
 
+import fr.efrei.billeterie.dto.LoginDto;
+import fr.efrei.billeterie.dto.LoginResponse;
+import fr.efrei.billeterie.dto.RegisterDto;
+import fr.efrei.billeterie.model.User;
 import fr.efrei.billeterie.security.AuthConfiguration;
 import fr.efrei.billeterie.security.JwtService;
 import fr.efrei.billeterie.service.AuthService;
