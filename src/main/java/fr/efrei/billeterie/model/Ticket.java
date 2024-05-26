@@ -21,5 +21,12 @@ public class Ticket {
 
     @ManyToOne
     @Column(nullable = true)
-    private User buyer;
+    private Buyer buyer;
+
+    public Ticket(Event event, float price, boolean discount, Buyer buyer){
+        this.event = event;
+        this.price = price;
+        this.discount = discount;
+        this.buyer = buyer;
+    }
 }
