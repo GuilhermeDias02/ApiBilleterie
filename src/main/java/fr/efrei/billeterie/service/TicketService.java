@@ -1,12 +1,14 @@
 package fr.efrei.billeterie.service;
 
 import fr.efrei.billeterie.dto.CreateTicket;
+import fr.efrei.billeterie.dto.UpdateTicket;
 import fr.efrei.billeterie.model.Ticket;
 import fr.efrei.billeterie.repository.TicketRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,42 +39,52 @@ public class TicketService {
         return repository.save(ticketACreer);
     }
 
-//    @Transactional
-//    public boolean delete(String uuid) {
-//        Student studentASupprimer = findStudentById(uuid);
-//        if(studentASupprimer != null && studentASupprimer.getDeletedAt() == null) {
-//            studentASupprimer.setDeletedAt(LocalDateTime.now());
-//            repository.save(studentASupprimer);
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    public boolean update(String uuid, UpdateStudent student) {
-//        Student studentAModifier = findStudentById(uuid);
-//
-//        if(studentAModifier != null) {
-//            studentAModifier.setFirstname(student.getFirstname());
-//            studentAModifier.setName(student.getName());
-//            repository.save(studentAModifier);
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    public boolean updatePartielle(String uuid, UpdateStudent student) {
-//        Student studentAModifier = findStudentById(uuid);
-//
-//        if(studentAModifier != null) {
-//            if(!student.getFirstname().isEmpty()) {
-//                studentAModifier.setFirstname(student.getFirstname());
-//            }
-//            if(!student.getName().isEmpty()) {
-//                studentAModifier.setName(student.getName());
-//            }
-//            repository.save(studentAModifier);
-//            return true;
-//        }
-//        return false;
-//    }
+    @Transactional
+    public boolean delete(String uuid) {
+        Ticket ticketASupprimer = findTicketById(uuid);
+        if(ticketASupprimer != null) {
+            repository.deleteByUuid(uuid);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateAll(String uuid, UpdateTicket ticket){
+        Ticket ticketAModifier = findTicketById(uuid);
+
+        if(ticketAModifier != null) {
+            ticketAModifier.setEvent(ticket.getEvent());
+            ticketAModifier.setPrice(ticket.getPrice());
+            ticketAModifier.setDiscount(ticket.isDiscount());
+            ticketAModifier.setBuyer(ticket.getBuyer());
+            repository.save(ticketAModifier);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateDiscount(String uuid, UpdateTicket ticket) {
+        Ticket ticketAModifier = findTicketById(uuid);
+
+        if(ticketAModifier != null) {
+            ticketAModifier.setPrice(ticket.getPrice());
+            ticketAModifier.setDiscount(ticket.isDiscount());
+            repository.save(ticketAModifier);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateBuyer(String uuid, UpdateTicket ticket) {
+        Ticket ticketAModifier = findTicketById(uuid);
+
+        if(ticketAModifier != null) {
+            if(ticket.getBuyer() != null) {
+                ticketAModifier.setBuyer(ticket.getBuyer());
+            }
+            repository.save(ticketAModifier);
+            return true;
+        }
+        return false;
+    }
 }

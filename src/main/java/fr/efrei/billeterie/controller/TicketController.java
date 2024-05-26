@@ -1,6 +1,7 @@
 package fr.efrei.billeterie.controller;
 
 import fr.efrei.billeterie.dto.CreateTicket;
+import fr.efrei.billeterie.dto.UpdateTicket;
 import fr.efrei.billeterie.model.Ticket;
 import fr.efrei.billeterie.service.TicketService;
 import jakarta.validation.Valid;
@@ -46,34 +47,42 @@ public class TicketController {
         return new ResponseEntity<>(createdTicket, HttpStatus.CREATED);
     }
 
-//    @DeleteMapping("/{uuid}")
-//    public ResponseEntity<?> delete(@PathVariable String uuid) {
-//        boolean isDeleted = service.delete(uuid);
-//        if(isDeleted) {
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
-//
-//    @PutMapping("/{uuid}")
-//    public ResponseEntity<?> mettreAJourTotalement(
-//            @PathVariable String uuid,
-//            @RequestBody UpdateStudent student) {
-//        boolean isUpdated = service.update(uuid, student);
-//        if(isUpdated) {
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
-//
-//    @PatchMapping("/{uuid}")
-//    public ResponseEntity<?> mettreAjourPartiellement(
-//            @PathVariable String uuid,
-//            @RequestBody UpdateStudent student) {
-//        boolean isUpdated = service.updatePartielle(uuid, student);
-//        if(isUpdated) {
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<?> delete(@PathVariable String uuid) {
+        boolean isDeleted = service.delete(uuid);
+        if(isDeleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/{uuid}")
+    public ResponseEntity<?> mettreAJourTotalement(
+            @PathVariable String uuid,
+            @RequestBody UpdateTicket ticket) {
+        boolean isUpdated = service.updateAll(uuid, ticket);
+        if(isUpdated) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PatchMapping("/{uuid}/{ressource}")
+    public ResponseEntity<?> mettreAjourPartiellement(
+            @PathVariable String uuid,
+            @PathVariable String ressource,
+            @RequestBody UpdateTicket ticket) {
+        boolean isUpdated = false;
+        if(ressource.equals("price")){
+            isUpdated = service.updateDiscount(uuid, ticket);
+        }
+        else if(ressource.equals("buyer")){
+            isUpdated = service.updateBuyer(uuid, ticket);
+        }
+
+        if(isUpdated) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

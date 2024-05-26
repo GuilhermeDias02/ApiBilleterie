@@ -29,4 +29,35 @@ public class Ticket {
         this.discount = discount;
         this.buyer = buyer;
     }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public Buyer getBuyer() {
+        return buyer;
+    }
+
+    public void setEvent(Event event){
+        this.event = event;
+    }
+
+    public void setPrice(float price){
+        this.price = price;
+    }
+
+    public void setDiscount(boolean discount){
+        this.discount = discount;
+    }
+    public void setBuyer(Buyer buyer){
+        this.buyer = buyer;
+    }
 }
