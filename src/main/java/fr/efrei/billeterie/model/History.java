@@ -12,16 +12,15 @@ public class History {
     @Column(nullable = false)
     private String uuid;
 
-    @Column(nullable = false)
+    @ManyToOne
     private User user;
 
     @Column(nullable = false)
     private Date date;
 
     @Column(nullable = false)
-    private float priceTotal;
+    private float payed;
 
-    @OneToOne
-    @Column(nullable = false)
+    @OneToMany
     private List<Ticket> tickets;
 }

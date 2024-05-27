@@ -1,7 +1,7 @@
 package fr.efrei.billeterie.dto;
 
-import fr.efrei.billeterie.model.Buyer;
 import fr.efrei.billeterie.model.Event;
+import fr.efrei.billeterie.model.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -16,7 +16,7 @@ public class CreateTicket {
     private boolean discount = false;
 
     @NotBlank
-    private Buyer buyer = null;
+    private User buyer = null;
 
     public CreateTicket(Event event, float price){
         this.event = event;
@@ -27,12 +27,12 @@ public class CreateTicket {
         this.price = price;
         this.discount = discount;
     }
-    public CreateTicket(Event event, float price, Buyer buyer){
+    public CreateTicket(Event event, float price, User buyer){
         this.event = event;
         this.price = price;
         this.buyer = buyer;
     }
-    public CreateTicket(Event event, float price, boolean discount, Buyer buyer){
+    public CreateTicket(Event event, float price, boolean discount, User buyer){
         this.event = event;
         this.price = price;
         this.discount = discount;
@@ -51,7 +51,7 @@ public class CreateTicket {
         return discount;
     }
 
-    public Buyer getBuyer() {
+    public User getBuyer() {
         return buyer;
     }
 }

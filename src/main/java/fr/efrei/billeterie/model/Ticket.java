@@ -10,7 +10,6 @@ public class Ticket {
     private String uuid;
 
     @ManyToOne
-    @Column(nullable = false)
     private Event event;
 
     @Column(nullable = false)
@@ -20,14 +19,13 @@ public class Ticket {
     private boolean discount;
 
     @ManyToOne
-    @Column(nullable = true)
-    private Buyer buyer;
+    private User user;
 
-    public Ticket(Event event, float price, boolean discount, Buyer buyer){
+    public Ticket(Event event, float price, boolean discount, User user){
         this.event = event;
         this.price = price;
         this.discount = discount;
-        this.buyer = buyer;
+        this.user = user;
     }
 
     public String getUuid() {
@@ -42,8 +40,8 @@ public class Ticket {
         return price;
     }
 
-    public Buyer getBuyer() {
-        return buyer;
+    public User getUser() {
+        return user;
     }
 
     public void setEvent(Event event){
@@ -57,7 +55,7 @@ public class Ticket {
     public void setDiscount(boolean discount){
         this.discount = discount;
     }
-    public void setBuyer(Buyer buyer){
-        this.buyer = buyer;
+    public void setBuyer(User user){
+        this.user = user;
     }
 }

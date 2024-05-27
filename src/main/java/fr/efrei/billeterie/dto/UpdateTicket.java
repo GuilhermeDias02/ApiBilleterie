@@ -1,7 +1,7 @@
 package fr.efrei.billeterie.dto;
 
-import fr.efrei.billeterie.model.Buyer;
 import fr.efrei.billeterie.model.Event;
+import fr.efrei.billeterie.model.User;
 import jakarta.validation.constraints.NotBlank;
 
 public class UpdateTicket {
@@ -15,9 +15,9 @@ public class UpdateTicket {
     private boolean discount = false;
 
     @NotBlank
-    private Buyer buyer = null;
+    private User buyer = null;
 
-    public UpdateTicket(float price, boolean discount, Buyer buyer){
+    public UpdateTicket(float price, boolean discount, User buyer){
         this.price = price;
         this.discount = discount;
         this.buyer = buyer;
@@ -35,7 +35,7 @@ public class UpdateTicket {
         return discount;
     }
 
-    public Buyer getBuyer() {
+    public User getBuyer() {
         return buyer;
     }
 }
