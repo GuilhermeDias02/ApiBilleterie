@@ -14,6 +14,7 @@ public class Event {
     private String uuid;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Adress adress;
 
     @Column(nullable = false)
@@ -31,4 +32,6 @@ public class Event {
 
     @Column(nullable = false)
     private boolean canceled;
+
+    public Event(){}
 }

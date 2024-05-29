@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ticket")
-@EnableMethodSecurity
+//@EnableMethodSecurity
 public class TicketController {
 
     private final TicketService service;

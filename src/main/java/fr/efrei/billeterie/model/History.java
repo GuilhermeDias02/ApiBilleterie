@@ -23,4 +23,6 @@ public class History {
 
     @OneToMany
     private List<Ticket> tickets;
+
+    public History(){}
 }

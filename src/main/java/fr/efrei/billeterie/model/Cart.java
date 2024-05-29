@@ -31,6 +31,7 @@ public class Cart {
     @Column(nullable = false)
     private boolean payed = false;
 
+    public Cart(){}
     public Cart(User user, Date date, float toPay, List<Ticket> tickets, boolean payed){
         this.user = user;
         this.date = date;

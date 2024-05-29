@@ -3,6 +3,7 @@ package fr.efrei.billeterie.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 public class Ticket {
@@ -31,6 +32,7 @@ public class Ticket {
     @ManyToOne
     private User user;
 
+    public Ticket(){}
     public Ticket(Event event, float price, boolean discount, User user){
         this.event = event;
         this.price = price;

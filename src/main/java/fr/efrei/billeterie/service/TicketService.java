@@ -34,7 +34,7 @@ public class TicketService {
                 ticket.getEvent(),
                 ticket.getPrice(),
                 ticket.isDiscount(),
-                ticket.getBuyer()
+                ticket.getUser()
         );
         return repository.save(ticketACreer);
     }
