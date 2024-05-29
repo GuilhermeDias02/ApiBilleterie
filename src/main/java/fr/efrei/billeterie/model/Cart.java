@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Order {
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
@@ -27,7 +27,7 @@ public class Order {
     @Column(nullable = false)
     private boolean payed;
 
-    public Order(User user, Date date, float toPay, List<Ticket> tickets, boolean payed){
+    public Cart(User user, Date date, float toPay, List<Ticket> tickets, boolean payed){
         this.user = user;
         this.date = date;
         this.toPay = toPay;
