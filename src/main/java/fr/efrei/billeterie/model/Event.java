@@ -1,5 +1,6 @@
 package fr.efrei.billeterie.model;
 
+import fr.efrei.billeterie.constants.Adress;
 import fr.efrei.billeterie.constants.SportFr;
 import jakarta.persistence.*;
 
@@ -13,7 +14,7 @@ public class Event {
     private String uuid;
 
     @Column(nullable = false)
-    private String adress;
+    private Adress adress;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

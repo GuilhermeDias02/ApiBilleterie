@@ -1,23 +1,33 @@
 package fr.efrei.billeterie.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 public class Ticket {
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
     private String uuid;
 
+    @Setter
+    @Getter
     @ManyToOne
     private Event event;
 
+    @Setter
+    @Getter
     @Column(nullable = false)
     private float price;
 
+    @Setter
     @Column(nullable = false)
     private boolean discount;
 
+    @Setter
+    @Getter
     @ManyToOne
     private User user;
 
@@ -25,37 +35,6 @@ public class Ticket {
         this.event = event;
         this.price = price;
         this.discount = discount;
-        this.user = user;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public Event getEvent() {
-        return event;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setEvent(Event event){
-        this.event = event;
-    }
-
-    public void setPrice(float price){
-        this.price = price;
-    }
-
-    public void setDiscount(boolean discount){
-        this.discount = discount;
-    }
-    public void setBuyer(User user){
         this.user = user;
     }
 }

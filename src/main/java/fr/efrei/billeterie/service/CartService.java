@@ -1,5 +1,7 @@
 package fr.efrei.billeterie.service;
 
+import fr.efrei.billeterie.dto.CreateCart;
+import fr.efrei.billeterie.dto.UpdateCart;
 import fr.efrei.billeterie.model.Cart;
 import fr.efrei.billeterie.repository.CartRepository;
 import jakarta.transaction.Transactional;
@@ -28,61 +30,46 @@ public class CartService {
 
     public Cart create(CreateCart cart) {
         Cart cartACreer = new Cart(
-                ticket.getEvent(),
-                ticket.getPrice(),
-                ticket.isDiscount(),
-                ticket.getBuyer()
+                cart.getUser(),
+                cart.getDate(),
+                cart.getToPay(),
+                cart.getTickets(),
+                cart.isPayed()
         );
-        return repository.save(ticketACreer);
+        return repository.save(cartACreer);
     }
 
     @Transactional
     public boolean delete(String uuid) {
-        Ticket ticketASupprimer = findTicketById(uuid);
-        if(ticketASupprimer != null) {
+        Cart CartASupprimer = findCartById(uuid);
+        if(CartASupprimer != null) {
             repository.deleteByUuid(uuid);
             return true;
         }
         return false;
     }
 
-    public boolean updateAll(String uuid, UpdateTicket ticket){
-        Ticket ticketAModifier = findTicketById(uuid);
+    public boolean updateAll(String uuid, UpdateCart cart){
+        Cart cartAModifier = findCartById(uuid);
 
-        if(ticketAModifier != null) {
-            ticketAModifier.setEvent(ticket.getEvent());
-            ticketAModifier.setPrice(ticket.getPrice());
-            ticketAModifier.setDiscount(ticket.isDiscount());
-            ticketAModifier.setBuyer(ticket.getBuyer());
-            repository.save(ticketAModifier);
+        if(cartAModifier != null) {
+            cartAModifier.setToPay(cart.getToPay());
+            cartAModifier.setTickets(cart.getTickets());
+            cartAModifier.setPayed(cart.isPayed());
+            repository.save(cartAModifier);
             return true;
         }
         return false;
     }
 
-    public boolean updateDiscount(String uuid, UpdateTicket ticket) {
-        Ticket ticketAModifier = findTicketById(uuid);
+    public boolean updateTotalPrice(String uuid, UpdateCart cart) {
+        Cart cartAModifier = findCartById(uuid);
 
-        if(ticketAModifier != null) {
-            ticketAModifier.setPrice(ticket.getPrice());
-            ticketAModifier.setDiscount(ticket.isDiscount());
-            repository.save(ticketAModifier);
+        if(cartAModifier != null) {
+            cartAModifier.setToPay(cart.getToPay());
+            repository.save(cartAModifier);
             return true;
         }
         return false;
     }
-
-    public boolean updateBuyer(String uuid, UpdateTicket ticket) {
-        Ticket ticketAModifier = findTicketById(uuid);
-
-        if(ticketAModifier != null) {
-            if(ticket.getBuyer() != null) {
-                ticketAModifier.setBuyer(ticket.getBuyer());
-            }
-            repository.save(ticketAModifier);
-            return true;
-        }
-        return false;
-    }
-
 }

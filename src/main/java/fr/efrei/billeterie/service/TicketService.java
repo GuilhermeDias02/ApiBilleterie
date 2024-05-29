@@ -56,7 +56,7 @@ public class TicketService {
             ticketAModifier.setEvent(ticket.getEvent());
             ticketAModifier.setPrice(ticket.getPrice());
             ticketAModifier.setDiscount(ticket.isDiscount());
-            ticketAModifier.setBuyer(ticket.getBuyer());
+            ticketAModifier.setUser(ticket.getBuyer());
             repository.save(ticketAModifier);
             return true;
         }
@@ -80,7 +80,7 @@ public class TicketService {
 
         if(ticketAModifier != null) {
             if(ticket.getBuyer() != null) {
-                ticketAModifier.setBuyer(ticket.getBuyer());
+                ticketAModifier.setUser(ticket.getBuyer());
             }
             repository.save(ticketAModifier);
             return true;
