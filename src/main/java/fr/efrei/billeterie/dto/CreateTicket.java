@@ -2,8 +2,6 @@ package fr.efrei.billeterie.dto;
 
 import fr.efrei.billeterie.model.Event;
 import fr.efrei.billeterie.model.User;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 

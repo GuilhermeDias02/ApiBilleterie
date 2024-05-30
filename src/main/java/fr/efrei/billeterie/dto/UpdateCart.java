@@ -15,6 +15,7 @@ public class UpdateCart {
     @Getter
     private boolean payed = false;
 
+    public UpdateCart(){}
     public UpdateCart(float toPay, List<Ticket> tickets, boolean payed){
         this.toPay = toPay;
         this.tickets = tickets;

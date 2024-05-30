@@ -3,23 +3,24 @@ package fr.efrei.billeterie.dto;
 import fr.efrei.billeterie.model.Event;
 import fr.efrei.billeterie.model.User;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 public class UpdateTicket {
     @Getter
-    @NotBlank
+    @NotNull
     private Event event;
 
-    @lombok.Getter
-    @NotBlank
+    @Getter
+    @NotNull
     private float price;
 
     @Getter
-    @NotBlank
+    @NotNull
     private boolean discount = false;
 
     @Getter
-    @NotBlank
+    @NotNull
     private User buyer = null;
 
     public UpdateTicket(float price, boolean discount, User buyer){
