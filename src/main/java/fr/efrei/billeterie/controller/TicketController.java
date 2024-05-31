@@ -47,6 +47,7 @@ public class TicketController {
         return new ResponseEntity<>(createdTicket, HttpStatus.CREATED);
     }
 
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{uuid}")
     public ResponseEntity<?> delete(@PathVariable String uuid) {
         boolean isDeleted = service.delete(uuid);
@@ -56,6 +57,7 @@ public class TicketController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{uuid}")
     public ResponseEntity<?> mettreAJourTotalement(
             @PathVariable String uuid,
@@ -67,6 +69,7 @@ public class TicketController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/{uuid}/{ressource}")
     public ResponseEntity<?> mettreAjourPartiellement(
             @PathVariable String uuid,

@@ -24,11 +24,13 @@ public class EventController {
         this.service = service;
     }
 
+//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @GetMapping
     public ResponseEntity<List<Event>> findAll() {
         return new ResponseEntity<>(service.findAllEvents(), HttpStatus.OK);
     }
 
+//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @GetMapping("/{uuid}")
     public ResponseEntity<Event> findOneById(@PathVariable String uuid) {
         Event event = service.findEventById(uuid);

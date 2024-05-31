@@ -27,11 +27,14 @@ public class CartController {
         this.service = service;
     }
 
+//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @GetMapping
     public ResponseEntity<List<Cart>> findAll() {
         return new ResponseEntity<>(service.findAllCarts(), HttpStatus.OK);
     }
 
+
+//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @GetMapping("/{uuid}")
     public ResponseEntity<Cart> findOneById(@PathVariable String uuid) {
         Cart cart = service.findCartById(uuid);
@@ -41,13 +44,14 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    //    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @PostMapping
     public ResponseEntity<Cart> save(@Valid @RequestBody CreateCart cart) {
         Cart createdCart = service.create(cart);
         return new ResponseEntity<>(createdCart, HttpStatus.CREATED);
     }
 
+//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @DeleteMapping("/{uuid}")
     public ResponseEntity<?> delete(@PathVariable String uuid) {
         boolean isDeleted = service.delete(uuid);
@@ -57,6 +61,7 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @PutMapping("/{uuid}")
     public ResponseEntity<?> mettreAJourTotalement(
             @PathVariable String uuid,
@@ -68,6 +73,7 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @PatchMapping("/{uuid}/{ressource}")
     public ResponseEntity<?> mettreAjourPartiellement(
             @PathVariable String uuid,

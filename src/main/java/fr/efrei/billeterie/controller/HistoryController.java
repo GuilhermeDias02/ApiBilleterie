@@ -25,11 +25,13 @@ public class HistoryController {
         this.service = service;
     }
 
+//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @GetMapping
     public ResponseEntity<List<History>> findAll() {
         return new ResponseEntity<>(service.findAllHistories(), HttpStatus.OK);
     }
 
+//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @GetMapping("/{uuid}")
     public ResponseEntity<History> findOneById(@PathVariable String uuid) {
         History history = service.findHistoryById(uuid);
@@ -39,13 +41,14 @@ public class HistoryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    //    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<History> save(@Valid @RequestBody CreateHistory history) {
         History createdHistory = service.create(history);
         return new ResponseEntity<>(createdHistory, HttpStatus.CREATED);
     }
 
+//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @DeleteMapping("/{uuid}")
     public ResponseEntity<?> delete(@PathVariable String uuid) {
         boolean isDeleted = service.delete(uuid);
@@ -55,6 +58,7 @@ public class HistoryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+//    @PreAuthorize("hasAuthority('Admin')")
     @PutMapping("/{uuid}")
     public ResponseEntity<?> mettreAJourTotalement(
             @PathVariable String uuid,
@@ -66,6 +70,7 @@ public class HistoryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+//    @PreAuthorize("hasAuthority('Admin')")
     @PatchMapping("/{uuid}/{ressource}")
     public ResponseEntity<?> mettreAjourPartiellement(
             @PathVariable String uuid,
