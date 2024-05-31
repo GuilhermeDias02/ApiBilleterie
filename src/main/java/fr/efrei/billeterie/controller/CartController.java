@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +29,14 @@ public class CartController {
         this.service = service;
     }
 
-//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping
     public ResponseEntity<List<Cart>> findAll() {
         return new ResponseEntity<>(service.findAllCarts(), HttpStatus.OK);
     }
 
 
-//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @GetMapping("/{uuid}")
     public ResponseEntity<Cart> findOneById(@PathVariable String uuid) {
         Cart cart = service.findCartById(uuid);
@@ -45,14 +46,14 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @PostMapping
     public ResponseEntity<Cart> save(@Valid @RequestBody CreateCart cart) {
         Cart createdCart = service.create(cart);
         return new ResponseEntity<>(createdCart, HttpStatus.CREATED);
     }
 
-//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @DeleteMapping("/{uuid}")
     public ResponseEntity<?> delete(@PathVariable String uuid) {
         boolean isDeleted = service.delete(uuid);
@@ -62,19 +63,19 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @PutMapping("/{uuid}")
     public ResponseEntity<?> mettreAJourTotalement(
             @PathVariable String uuid,
             @RequestBody UpdateCart cart) {
         boolean isUpdated = service.updateAll(uuid, cart);
         if(isUpdated) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @PatchMapping("/{uuid}/price")
     public ResponseEntity<?> mettreAjourPartiellement(@PathVariable String uuid, @RequestBody UpdateCart cart) {
         boolean isUpdated = service.updateTotalPrice(uuid, cart);
@@ -83,27 +84,29 @@ public class CartController {
 //        }
 
         if(isUpdated) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @PatchMapping("/{uuid}/tickets")
     public ResponseEntity<?> modifierBillets(@PathVariable String uuid, @RequestBody UpdateCart cart){
         boolean isUpdated = service.updateTickets(uuid, cart);
 
         if(isUpdated){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @PatchMapping("/{uuid}/pay")
     public ResponseEntity<?> modifierBillets(@PathVariable String uuid){
         boolean isUpdated = service.pay(uuid);
 
         if(isUpdated){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

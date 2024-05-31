@@ -5,6 +5,7 @@ import fr.efrei.billeterie.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,13 +25,11 @@ public class EventController {
         this.service = service;
     }
 
-//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @GetMapping
     public ResponseEntity<List<Event>> findAll() {
         return new ResponseEntity<>(service.findAllEvents(), HttpStatus.OK);
     }
 
-//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @GetMapping("/{uuid}")
     public ResponseEntity<Event> findOneById(@PathVariable String uuid) {
         Event event = service.findEventById(uuid);

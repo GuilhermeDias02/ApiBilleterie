@@ -31,7 +31,7 @@ public class TicketController {
         return new ResponseEntity<>(service.findAllTickets(), HttpStatus.OK);
     }
 
-    @GetMapping("/{uuid}")
+    @GetMapping("/find/{uuid}")
     public ResponseEntity<Ticket> findOneById(@PathVariable String uuid) {
         Ticket ticket = service.findTicketById(uuid);
         if(ticket != null) {
@@ -40,14 +40,20 @@ public class TicketController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/count/{uuid}")
+    public ResponseEntity<Long> countById(@PathVariable String uuid){
+        Long count = service.countTicketByEvent(uuid);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<Ticket> save(@Valid @RequestBody CreateTicket ticket) {
         Ticket createdTicket = service.create(ticket);
         return new ResponseEntity<>(createdTicket, HttpStatus.CREATED);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{uuid}")
     public ResponseEntity<?> delete(@PathVariable String uuid) {
         boolean isDeleted = service.delete(uuid);
@@ -57,7 +63,7 @@ public class TicketController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{uuid}")
     public ResponseEntity<?> mettreAJourTotalement(
             @PathVariable String uuid,
@@ -69,7 +75,7 @@ public class TicketController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/{uuid}/{ressource}")
     public ResponseEntity<?> mettreAjourPartiellement(
             @PathVariable String uuid,

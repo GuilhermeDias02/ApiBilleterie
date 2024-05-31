@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +26,13 @@ public class HistoryController {
         this.service = service;
     }
 
-//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping
     public ResponseEntity<List<History>> findAll() {
         return new ResponseEntity<>(service.findAllHistories(), HttpStatus.OK);
     }
 
-//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
     @GetMapping("/{uuid}")
     public ResponseEntity<History> findOneById(@PathVariable String uuid) {
         History history = service.findHistoryById(uuid);
@@ -41,14 +42,14 @@ public class HistoryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('Buyer')")
     @PostMapping
     public ResponseEntity<History> save(@Valid @RequestBody CreateHistory history) {
         History createdHistory = service.create(history);
         return new ResponseEntity<>(createdHistory, HttpStatus.CREATED);
     }
 
-//    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
+    @PreAuthorize("hasAuthority('Admin')")
     @DeleteMapping("/{uuid}")
     public ResponseEntity<?> delete(@PathVariable String uuid) {
         boolean isDeleted = service.delete(uuid);
@@ -58,7 +59,7 @@ public class HistoryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority('Admin')")
     @PutMapping("/{uuid}")
     public ResponseEntity<?> mettreAJourTotalement(
             @PathVariable String uuid,
@@ -70,7 +71,7 @@ public class HistoryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority('Admin')")
     @PatchMapping("/{uuid}/{ressource}")
     public ResponseEntity<?> mettreAjourPartiellement(
             @PathVariable String uuid,

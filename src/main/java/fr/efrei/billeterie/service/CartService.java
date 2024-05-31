@@ -5,6 +5,7 @@ import fr.efrei.billeterie.dto.CreateHistory;
 import fr.efrei.billeterie.dto.UpdateCart;
 import fr.efrei.billeterie.model.Cart;
 import fr.efrei.billeterie.model.History;
+import fr.efrei.billeterie.model.Ticket;
 import fr.efrei.billeterie.repository.CartRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,13 @@ public class CartService {
 
     private CartRepository repository;
     private HistoryService historyService;
+    private TicketService ticketService;
 
     @Autowired
-    public CartService(CartRepository repository){
+    public CartService(CartRepository repository, HistoryService historyService, TicketService ticketService){
         this.repository = repository;
+        this.historyService = historyService;
+        this.ticketService = ticketService;
     }
 
     public List<Cart> findAllCarts() {
@@ -92,15 +96,22 @@ public class CartService {
         Cart cartAModifier = findCartById(uuid);
 
         if(cartAModifier != null) {
-            cartAModifier.setPayed(true);
             CreateHistory nouvelHistoric = new CreateHistory(
                     cartAModifier.getUser(),
                     new Date(),
                     cartAModifier.getToPay(),
                     cartAModifier.getTickets()
             );
-            repository.save(cartAModifier);
+
+            for(Ticket ticketASupprimer : cartAModifier.getTickets()){
+                if(!ticketService.delete(ticketASupprimer.getUuid())){
+                    return false;
+                }
+            }
+
             History historyCreated = historyService.create(nouvelHistoric);
+            cartAModifier.setPayed(true);
+            repository.save(cartAModifier);
             return true;
         }
         return false;

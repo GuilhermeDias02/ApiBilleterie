@@ -15,8 +15,8 @@ public interface TicketRepository extends JpaRepository<Ticket, String> {
 
     List<Ticket> findAll();
 
-    @Query(value = "SELECT COUNT(*) FROM ticket WHERE event_uuid = ?1", nativeQuery = true)
-    List<Ticket> CountByEvent(String event_uuid);
+//    @Query(value = "SELECT COUNT(*) as nbr FROM ticket WHERE event_uuid = ?1", nativeQuery = true)
+    Long countByEvent(Event event);
 
     Optional<Ticket> findAllByUser(User user);
 

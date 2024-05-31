@@ -2,6 +2,7 @@ package fr.efrei.billeterie.service;
 
 import fr.efrei.billeterie.dto.CreateTicket;
 import fr.efrei.billeterie.dto.UpdateTicket;
+import fr.efrei.billeterie.model.Event;
 import fr.efrei.billeterie.model.Ticket;
 import fr.efrei.billeterie.repository.TicketRepository;
 import jakarta.transaction.Transactional;
@@ -15,10 +16,12 @@ import java.util.List;
 public class TicketService {
 
     private final TicketRepository repository;
+    private EventService eventService;
 
     @Autowired
-    public TicketService(TicketRepository repository) {
+    public TicketService(TicketRepository repository, EventService eventService) {
         this.repository = repository;
+        this.eventService = eventService;
     }
 
     public List<Ticket> findAllTickets() {
@@ -27,6 +30,11 @@ public class TicketService {
 
     public Ticket findTicketById(String uuid) {
         return repository.findOneByUuid(uuid).orElse(null);
+    }
+
+    public Long countTicketByEvent(String uuid){
+        Event event = eventService.findEventById(uuid);
+        return repository.countByEvent(event);
     }
 
     public Ticket create(CreateTicket ticket) {
