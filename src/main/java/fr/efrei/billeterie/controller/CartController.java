@@ -2,6 +2,7 @@ package fr.efrei.billeterie.controller;
 
 import fr.efrei.billeterie.dto.CreateCart;
 import fr.efrei.billeterie.dto.UpdateCart;
+import fr.efrei.billeterie.dto.UpdateTicket;
 import fr.efrei.billeterie.model.Cart;
 import fr.efrei.billeterie.service.CartService;
 import jakarta.validation.Valid;
@@ -74,15 +75,9 @@ public class CartController {
     }
 
 //    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Buyer')")
-    @PatchMapping("/{uuid}/{ressource}")
-    public ResponseEntity<?> mettreAjourPartiellement(
-            @PathVariable String uuid,
-            @PathVariable String ressource,
-            @RequestBody UpdateCart cart) {
-        boolean isUpdated = false;
-        if(ressource.equals("price")){
-            isUpdated = service.updateTotalPrice(uuid, cart);
-        }
+    @PatchMapping("/{uuid}/price")
+    public ResponseEntity<?> mettreAjourPartiellement(@PathVariable String uuid, @RequestBody UpdateCart cart) {
+        boolean isUpdated = service.updateTotalPrice(uuid, cart);
 //        else if(ressource.equals("buyer")){
 //            isUpdated = service.updateBuyer(uuid, ticket);
 //        }
@@ -93,4 +88,23 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PatchMapping("/{uuid}/tickets")
+    public ResponseEntity<?> modifierBillets(@PathVariable String uuid, @RequestBody UpdateCart cart){
+        boolean isUpdated = service.updateTickets(uuid, cart);
+
+        if(isUpdated){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PatchMapping("/{uuid}/pay")
+    public ResponseEntity<?> modifierBillets(@PathVariable String uuid){
+        boolean isUpdated = service.pay(uuid);
+
+        if(isUpdated){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

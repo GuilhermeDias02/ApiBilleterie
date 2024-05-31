@@ -1,19 +1,23 @@
 package fr.efrei.billeterie.service;
 
 import fr.efrei.billeterie.dto.CreateCart;
+import fr.efrei.billeterie.dto.CreateHistory;
 import fr.efrei.billeterie.dto.UpdateCart;
 import fr.efrei.billeterie.model.Cart;
+import fr.efrei.billeterie.model.History;
 import fr.efrei.billeterie.repository.CartRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class CartService {
 
     private CartRepository repository;
+    private HistoryService historyService;
 
     @Autowired
     public CartService(CartRepository repository){
@@ -68,6 +72,35 @@ public class CartService {
         if(cartAModifier != null) {
             cartAModifier.setToPay(cart.getToPay());
             repository.save(cartAModifier);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateTickets(String uuid, UpdateCart cart) {
+        Cart cartAModifier = findCartById(uuid);
+
+        if(cartAModifier != null) {
+            cartAModifier.setTickets(cart.getTickets());
+            repository.save(cartAModifier);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean pay(String uuid) {
+        Cart cartAModifier = findCartById(uuid);
+
+        if(cartAModifier != null) {
+            cartAModifier.setPayed(true);
+            CreateHistory nouvelHistoric = new CreateHistory(
+                    cartAModifier.getUser(),
+                    new Date(),
+                    cartAModifier.getToPay(),
+                    cartAModifier.getTickets()
+            );
+            repository.save(cartAModifier);
+            History historyCreated = historyService.create(nouvelHistoric);
             return true;
         }
         return false;
