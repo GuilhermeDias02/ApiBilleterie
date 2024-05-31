@@ -33,7 +33,7 @@ public class AuthService {
         user.setName(input.getName());
         user.setPhoneNumber(input.getPhoneNumber());
         user.setEmail(input.getEmail());
-        user.setRole(Role.Admin);
+        user.setRole(Role.Buyer);
         user.setPassword(passwordEncoder.encode(input.getPassword()));
 
         return userRepository.save(user);
